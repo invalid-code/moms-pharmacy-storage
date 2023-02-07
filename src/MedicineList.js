@@ -1,6 +1,6 @@
-import { createStore } from "solid-js/store";
+import { ref } from "vue";
 
-export const [medicines, set_medicines] = createStore([
+export const medicines = ref([
   { name: "medicine 1", price: 1, is_searched: false, is_countered: false },
   { name: "medicine 2", price: 2, is_searched: false, is_countered: false },
   { name: "medicine 3", price: 3, is_searched: false, is_countered: false },
