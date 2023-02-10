@@ -1,44 +1,25 @@
 <script>
-import { ref } from "vue";
+import {
+  months,
+  current_year,
+  current_month,
+  current_day,
+  years,
+  week_days,
+  todays_sales,
+} from "../MedicineList";
+// import { computed } from "vue";
 
 export default {
   setup() {
-    const date = new Date();
-
-    const current_year = ref(date.getFullYear());
-
-    const current_month = ref(date.getMonth());
-
-    const current_day = ref(date.getDay());
-
-    const week_days = ref([
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ]);
-
-    const years = ref([2023]);
-
-    const months = ref([
-      { name: "January", days: 31 },
-      { name: "February", days: 28 },
-      { name: "March", days: 31 },
-      { name: "April", days: 30 },
-      { name: "May", days: 31 },
-      { name: "June", days: 30 },
-      { name: "July", days: 31 },
-      { name: "August", days: 31 },
-      { name: "September", days: 30 },
-      { name: "October", days: 31 },
-      { name: "November", days: 30 },
-      { name: "December", days: 31 },
-    ]);
-
-    console.log(current_day.value);
+    const total_sales = () => {
+      let total = 0;
+      for (let i = 0; i < todays_sales.value; i++) {
+        console.log(todays_sales.value);
+        total += todays_sales.value[i].sales;
+      }
+      return total;
+    };
 
     return {
       months,
@@ -47,6 +28,8 @@ export default {
       current_day,
       years,
       week_days,
+      todays_sales,
+      total_sales,
     };
   },
 };
@@ -76,16 +59,29 @@ export default {
       </template> -->
     </template>
   </div>
-  <div>this is sales from the date chosen from the calendar</div>
+  <div>
+    <div>
+      {{ months[current_month].name }} {{ current_day }}, {{ current_year }}
+    </div>
+    <div v-for="sales in todays_sales">
+      <div v-for="medicine_data in sales.data">
+        {{ medicine_data.sold_quantity }} {{ medicine_data.name }}
+        {{ medicine_data.price * medicine_data.sold_quantity }}
+      </div>
+    </div>
+    <div>Total: {{ total_sales() }}</div>
+  </div>
 </template>
 
 <style scoped>
 .inactive-year {
   display: none;
 }
+
 .inactive-month {
   display: none;
 }
+
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);

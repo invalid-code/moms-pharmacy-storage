@@ -24,7 +24,9 @@ export default {
           medicine.name.includes(search_query.value) &&
           search_query.value.length > 0
         ) {
-          medicine.is_searched = true;
+          if (medicine.quantity > 0) {
+            medicine.is_searched = true;
+          }
         } else {
           medicine.is_searched = false;
         }
