@@ -45,13 +45,21 @@ export const medicines = ref([
 
 export const todays_sales = ref([]);
 
-export const date = new Date();
+const date = new Date();
 
-export const current_year = ref(date.getFullYear());
+export const current_year = date.getFullYear();
 
-export const current_month = ref(date.getMonth());
+export const current_month = date.getMonth();
 
-export const current_day = ref(date.getDate());
+export const current_day = date.getDate();
+
+export const active_day = ref(current_day);
+
+export const active_month = ref(current_month);
+
+export const active_year = ref(current_year);
+
+export const years = ref([2023]);
 
 export const week_days = ref([
   "Monday",
@@ -62,8 +70,6 @@ export const week_days = ref([
   "Saturday",
   "Sunday",
 ]);
-
-export const years = ref([2023]);
 
 export const months = ref([
   { name: "January", days: 31 },

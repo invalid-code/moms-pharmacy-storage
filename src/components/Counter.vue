@@ -7,7 +7,7 @@ import {
   current_month,
   current_year,
 } from "../MedicineList";
-import { ref, computed, watch } from "vue";
+import { ref, computed, watchEffect } from "vue";
 
 export default {
   setup() {
@@ -18,14 +18,12 @@ export default {
       () => received_amount.value - sales.value
     );
 
-    const calculate_total_sales = watch(() => {
+    watchEffect(() => {
       let total_sales = 0;
       for (let i = 0; i < medicines.value.length; i++) {
         let medicine = medicines.value[i];
         if (medicine.is_countered) {
-          total_sales += medicine.price;
-          medicine.quantity -= medicine.chosen_quantity;
-          medicine.chosen_quantity = 1;
+          total_sales += medicine.price * medicine.chosen_quantity;
         }
       }
       sales.value = total_sales;
@@ -34,13 +32,15 @@ export default {
 
     const add_to_today_sales = () => {
       let data = {
-        date: `${current_month}/${current_day}/${current_year}`,
+        date: `${current_month.value}/${current_day.value}/${current_year.value}`,
         sales: sales.value,
       };
       let medicine_list = [];
       for (let i = 0; i < medicines.value.length; i++) {
         let medicine = medicines.value[i];
         if (medicine.is_countered) {
+          medicine.quantity -= medicine.chosen_quantity;
+          medicine.chosen_quantity = 1;
           medicine_list.push({
             name: medicine.name,
             sold_quantity: medicine.chosen_quantity,
@@ -57,7 +57,6 @@ export default {
 
     return {
       medicines,
-      calculate_total_sales,
       received_amount,
       calculate_remaining_change,
       sales,
