@@ -32,7 +32,7 @@ export default {
 
     const add_to_today_sales = () => {
       let data = {
-        date: `${current_month.value}/${current_day.value}/${current_year.value}`,
+        date: `${current_month}/${current_day}/${current_year}`,
         sales: sales.value,
       };
       let medicine_list = [];

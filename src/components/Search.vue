@@ -11,6 +11,7 @@ export default {
         let medicine = medicines.value[i];
         if (medicine.name == e.target.textContent) {
           medicine.is_countered = true;
+          medicine.chosen_quantity = 1;
           medicine.is_searched = false;
           search_query.value = "";
         }
@@ -24,7 +25,7 @@ export default {
           medicine.name.includes(search_query.value) &&
           search_query.value.length > 0
         ) {
-          if (medicine.quantity > 0) {
+          if (medicine.stock > 0) {
             medicine.is_searched = true;
           }
         } else {

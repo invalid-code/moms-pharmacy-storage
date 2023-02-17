@@ -1,47 +1,14 @@
 import { ref } from "vue";
+import axios from "axios";
 
-export const medicines = ref([
-  {
-    name: "medicine 1",
-    price: 1,
-    is_searched: false,
-    is_countered: false,
-    quantity: 1,
-    chosen_quantity: 1,
-  },
-  {
-    name: "medicine 2",
-    price: 2,
-    is_searched: false,
-    is_countered: false,
-    quantity: 2,
-    chosen_quantity: 1,
-  },
-  {
-    name: "medicine 3",
-    price: 3,
-    is_searched: false,
-    is_countered: false,
-    quantity: 3,
-    chosen_quantity: 1,
-  },
-  {
-    name: "medicine 4",
-    price: 4,
-    is_searched: false,
-    is_countered: false,
-    quantity: 4,
-    chosen_quantity: 1,
-  },
-  {
-    name: "medicine 5",
-    price: 5,
-    is_searched: false,
-    is_countered: false,
-    quantity: 5,
-    chosen_quantity: 1,
-  },
-]);
+const base_url = "http://localhost:8000/";
+
+const get_medicines = async () => {
+  const res = await axios.get(base_url + "medicines");
+  return res.data.query;
+};
+
+export const medicines = ref(await get_medicines());
 
 export const todays_sales = ref([]);
 
