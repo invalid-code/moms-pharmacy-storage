@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const medicines_schema = new mongoose.Schema({
   name: String,
@@ -7,4 +7,5 @@ const medicines_schema = new mongoose.Schema({
 });
 const Medicines = mongoose.model("Medicine", medicines_schema);
 
-module.exports = { Medicines };
+// module.exports = Medicines;
+export { Medicines };

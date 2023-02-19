@@ -1,22 +1,24 @@
-<script>
-import { medicines } from "../MedicineList";
+<script lang="ts">
+import { medicines } from "../MedicineList.js";
 import { ref } from "vue";
 
 export default {
   setup() {
-    const medicine_name = ref(null);
-    const medicine_price = ref(null);
-    const medicine_stock = ref(null);
-    const edit_storage_item = (e) => {
-      console.log(medicine_name.value);
-    };
+    const medicine_name = ref([]);
+    const medicine_price = ref([]);
+    const medicine_stock = ref([]);
+    const edit_storage_name = () => {};
+    const edit_storage_price = () => {};
+    const edit_storage_stock = () => {};
 
     return {
       medicines,
-      edit_storage_item,
+      edit_storage_name,
       medicine_stock,
       medicine_price,
       medicine_name,
+      edit_storage_price,
+      edit_storage_stock,
     };
   },
 };
@@ -27,18 +29,18 @@ export default {
     <div class="storage-list-right">name</div>
     <div class="storage-list-right">price</div>
     <div class="storage-list-right">quantity</div>
-    <template v-for="medicine in medicines">
+    <template v-for="(medicine, i) in medicines">
       <div class="storage-list-right">
-        <span :ref="medicine_name">{{ medicine.name }}</span>
-        <span><button @click="edit_storage_item">edit</button></span>
+        <span>{{ medicine.name }}</span>
+        <span><button @click="edit_storage_name" :id="i">edit</button></span>
       </div>
       <div class="storage-list-right">
-        <span :ref="medicine_price">{{ medicine.price }}</span>
-        <span><button @click="edit_storage_item">edit</button></span>
+        <span>{{ medicine.price }}</span>
+        <span><button @click="edit_storage_price" :id="i">edit</button></span>
       </div>
       <div class="storage-list-right">
-        <span :ref="medicine_stock">{{ medicine.stock }}</span>
-        <span><button @click="edit_storage_item">edit</button></span>
+        <span>{{ medicine.stock }}</span>
+        <span><button @click="edit_storage_stock" :id="i">edit</button></span>
       </div>
     </template>
   </div>

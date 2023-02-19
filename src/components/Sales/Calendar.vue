@@ -1,28 +1,17 @@
-<script>
+<script lang="ts">
 import {
-  months,
   active_day,
   active_month,
   active_year,
-  week_days,
-  years,
-  todays_sales,
   current_month,
   current_year,
-} from "../MedicineList";
-import { watchEffect, ref } from "vue";
+  years,
+  months,
+  week_days,
+} from "../../MedicineList.js";
 
 export default {
   setup() {
-    const total_today_sales = ref(0);
-
-    watchEffect(() => {
-      for (let i = 0; i < todays_sales.value.length; i++) {
-        total_today_sales.value += todays_sales.value[i].sales;
-      }
-    });
-
-
     const change_active_day = (e) => {
       active_day.value = parseInt(e.target.id);
     };
@@ -54,24 +43,20 @@ export default {
         active_year.value = active_year.value + 1;
       }
     };
-
     return {
-      months,
-      years,
-      active_day,
-      active_month,
-      active_year,
-      todays_sales,
-      total_today_sales,
-      week_days,
       change_active_day,
       change_active_month,
       change_active_year,
+      active_day,
+      active_year,
+      active_month,
       current_month,
       current_year,
+      months,
+      years,
+      week_days,
     };
   },
-  components: {},
 };
 </script>
 
@@ -98,7 +83,7 @@ export default {
               month.name === months[current_month].name &&
               years[years.indexOf(active_year)] === current_year,
           }"
-          :id="day"
+          :id="day.toString()"
           @click="change_active_day"
         >
           {{ day }}
@@ -106,35 +91,6 @@ export default {
       </template>
     </template>
   </div>
-
-  <div>
-    <div>
-      {{ months[active_month].name }} {{ active_day }}, {{ active_year }}
-    </div>
-    <div v-for="sales in todays_sales">
-      <div v-if="sales.date === `${active_month}/${active_day}/${active_year}`">
-        <div v-for="medicine_data in sales.data">
-          {{ medicine_data.sold_quantity }} {{ medicine_data.name }}
-          {{ medicine_data.price * medicine_data.sold_quantity }}
-        </div>
-        <div>Total: {{ total_today_sales }}</div>
-      </div>
-    </div>
-  </div>
 </template>
 
-<style scoped>
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-
-.header {
-  grid-column: 2 / -2;
-  text-align: center;
-}
-
-.is-current-day {
-  font-weight: bold;
-}
-</style>
+<style scoped></style>

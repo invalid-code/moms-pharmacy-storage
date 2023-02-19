@@ -1,6 +1,8 @@
-const express = require("express");
-const { Medicines } = require("../models");
-const medicine_route = express();
+import express from "express";
+import { FilterQuery } from "mongoose";
+export const medicine_route = express();
+
+import { Medicines } from "../models/index.js";
 
 medicine_route.get("/medicines", async (req, res) => {
   const query = await Medicines.find({});
@@ -18,12 +20,15 @@ medicine_route.post("/medicines/new", async (req, res) => {
 });
 
 medicine_route.patch("/medicines/:id/edit", async (req, res) => {
-  const updated_medicine = await Medicines.updateOne(req.params.id, {
-    name: req.body.name,
-    stock: req.body.stock,
-    price: req.body.price,
-  });
+  const updated_medicine = await Medicines.updateOne(
+    { _id: req.params.id },
+    {
+      name: req.body.name,
+      stock: req.body.stock,
+      price: req.body.price,
+    }
+  );
   res.send(updated_medicine);
 });
 
-module.exports = { medicine_route };
+export default medicine_route;
