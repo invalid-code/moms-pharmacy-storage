@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import Storage from "../components/Storage.vue";
 
 export default { components: { Storage } };

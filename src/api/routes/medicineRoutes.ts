@@ -1,12 +1,11 @@
 import express from "express";
-import { FilterQuery } from "mongoose";
 export const medicine_route = express();
 
 import { Medicines } from "../models/index.js";
 
 medicine_route.get("/medicines", async (req, res) => {
   const query = await Medicines.find({});
-  res.status(200).header("Access-Control-Allow-Origin", "*").json({ query });
+  res.status(200).header("Access-Control-Allow-Origin", "*").json(query);
 });
 
 medicine_route.post("/medicines/new", async (req, res) => {
@@ -31,4 +30,4 @@ medicine_route.patch("/medicines/:id/edit", async (req, res) => {
   res.send(updated_medicine);
 });
 
-export default medicine_route;
+// export default medicine_route;

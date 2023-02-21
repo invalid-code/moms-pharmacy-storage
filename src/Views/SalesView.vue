@@ -1,5 +1,5 @@
-<script>
-import Sales from "../components/Sales.vue";
+<script lang="ts">
+import Sales from "../components/Sales/index.vue";
 
 export default { components: { Sales } };
 </script>

@@ -1,16 +1,31 @@
 import { ref } from "vue";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
-const base_url = "http://localhost:8000/";
+export interface SalesData {
+  date: string;
+  sales: number;
+  data?: { name: string; sold_quantity: number; price: number }[];
+}
+
+interface MedicineData {
+  _id: string;
+  name: string;
+  stock: number;
+  price: number;
+}
+
+export const base_url = "http://localhost:8000/";
 
 const get_medicines = async () => {
-  const res = await axios.get(base_url + "medicines");
-  return res.data.query;
+  const { data } = await axios.get<any, AxiosResponse<MedicineData[]>>(
+    base_url + "medicines"
+  );
+  return data;
 };
 
 export const medicines = ref(await get_medicines());
 
-export const todays_sales = ref([]);
+export const todays_sales = ref<SalesData[]>([]);
 
 const date = new Date();
 
@@ -26,9 +41,9 @@ export const active_month = ref(current_month);
 
 export const active_year = ref(current_year);
 
-export const years = ref([2023]);
+export const years = [2023];
 
-export const week_days = ref([
+export const week_days = [
   "Monday",
   "Tuesday",
   "Wednesday",
@@ -36,9 +51,9 @@ export const week_days = ref([
   "Friday",
   "Saturday",
   "Sunday",
-]);
+];
 
-export const months = ref([
+export const months = [
   { name: "January", days: 31 },
   { name: "February", days: 28 },
   { name: "March", days: 31 },
@@ -51,4 +66,4 @@ export const months = ref([
   { name: "October", days: 31 },
   { name: "November", days: 30 },
   { name: "December", days: 31 },
-]);
+];

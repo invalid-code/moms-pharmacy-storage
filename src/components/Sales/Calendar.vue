@@ -20,7 +20,7 @@ export default {
       if (e.target.id === "previous_month") {
         if (
           active_month.value === 0 &&
-          years.value.indexOf(active_year.value) === 0
+          years.indexOf(active_year.value) === 0
         ) {
           active_month.value = 11;
           active_year.value -= 1;
@@ -34,12 +34,12 @@ export default {
 
     const change_active_year = (e) => {
       if (e.target.id === "previous_year") {
-        let active_year_index = years.value.indexOf(active_year.value);
+        let active_year_index = years.indexOf(active_year.value);
         if (active_year_index > 0) {
           active_year.value -= 1;
         }
       } else {
-        years.value.push(active_year.value + 1);
+        years.push(active_year.value + 1);
         active_year.value = active_year.value + 1;
       }
     };
@@ -93,4 +93,18 @@ export default {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.header {
+  grid-column: 2 / -2;
+  text-align: center;
+}
+
+.is-current-day {
+  font-weight: bold;
+}
+</style>

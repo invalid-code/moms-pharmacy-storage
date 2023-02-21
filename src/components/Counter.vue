@@ -6,7 +6,8 @@ import {
   current_day,
   current_month,
   current_year,
-} from "../MedicineList";
+  SalesData,
+} from "../MedicineList.js";
 import { ref, computed, watchEffect } from "vue";
 
 export default {
@@ -31,7 +32,7 @@ export default {
     });
 
     const add_to_today_sales = () => {
-      let data = {
+      let data: SalesData = {
         date: `${current_month}/${current_day}/${current_year}`,
         sales: sales.value,
       };

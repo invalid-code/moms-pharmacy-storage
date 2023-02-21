@@ -48,18 +48,4 @@ export default {
   </div>
 </template>
 
-<style scoped>
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-
-.header {
-  grid-column: 2 / -2;
-  text-align: center;
-}
-
-.is-current-day {
-  font-weight: bold;
-}
-</style>
+<style scoped></style>

@@ -1,5 +1,5 @@
-<script>
-import { medicines } from "../MedicineList";
+<script lang="ts">
+import { medicines } from "../MedicineList.js";
 import { ref, watch } from "vue";
 
 export default {
