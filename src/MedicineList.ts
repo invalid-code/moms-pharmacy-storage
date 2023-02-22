@@ -23,7 +23,7 @@ export const get_medicines = async () => {
   return data;
 };
 
-export const medicines = ref(await get_medicines());
+export const medicines = ref(async () => await get_medicines());
 
 export const todays_sales = ref<SalesData[]>([]);
 
