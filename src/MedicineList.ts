@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import axios, { AxiosResponse } from "axios";
 
 export interface SalesData {
@@ -16,7 +16,7 @@ interface MedicineData {
 
 export const base_url = "http://localhost:8000/";
 
-const get_medicines = async () => {
+export const get_medicines = async () => {
   const { data } = await axios.get<any, AxiosResponse<MedicineData[]>>(
     base_url + "medicines"
   );

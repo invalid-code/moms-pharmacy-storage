@@ -27,7 +27,10 @@ medicine_route.patch("/medicines/:id/edit", async (req, res) => {
       price: req.body.price,
     }
   );
-  res.send(updated_medicine);
+  res
+    .status(200)
+    .header("Access-Control-Allow-Origin", "*")
+    .json(updated_medicine);
 });
 
 // export default medicine_route;

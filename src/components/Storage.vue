@@ -1,5 +1,5 @@
 <script lang="ts">
-import { medicines, base_url } from "../MedicineList.js";
+import { medicines, base_url, get_medicines } from "../MedicineList.js";
 import { ref } from "vue";
 import axios from "axios";
 
@@ -7,7 +7,6 @@ export default {
   setup() {
     const storage_medicine = ref(
       Array.from(medicines.value, (el, i) => {
-        console.log(i);
         return {
           medicine_name: true,
           medicine_price: true,
@@ -34,8 +33,32 @@ export default {
         !storage_medicine.value[parseInt(e.target.id)].medicine_stock;
     };
 
-    const save_edited_name = async (e: MouseEvent, id: string) => {
-      await axios.post(save_edited_name + "/medicines/" + id);
+    const save_edited_name = async (e: MouseEvent, id: string, i: number) => {
+      let url = base_url + "medicines/" + id + "/edit";
+      await axios.patch(url, {
+        name: storage_medicine.value[i].current_edit_name,
+      });
+      storage_medicine.value[i].medicine_name =
+        !storage_medicine.value[i].medicine_name;
+      medicines.value = await get_medicines();
+    };
+
+    const save_edited_price = async (e: MouseEvent, id: string, i: number) => {
+      await axios.patch(base_url + "medicines/" + id + "/edit", {
+        price: storage_medicine.value[i].current_edit_price,
+      });
+      storage_medicine.value[i].medicine_price =
+        !storage_medicine.value[i].medicine_price;
+      medicines.value = await get_medicines();
+    };
+
+    const save_edited_stock = async (e: MouseEvent, id: string, i: number) => {
+      await axios.patch(base_url + "medicines/" + id + "/edit", {
+        stock: storage_medicine.value[i].current_edit_stock,
+      });
+      storage_medicine.value[i].medicine_stock =
+        !storage_medicine.value[i].medicine_stock;
+      medicines.value = await get_medicines();
     };
 
     return {
@@ -45,6 +68,8 @@ export default {
       edit_storage_price,
       edit_storage_stock,
       save_edited_name,
+      save_edited_price,
+      save_edited_stock,
     };
   },
 };
@@ -68,7 +93,7 @@ export default {
             :id="i.toString()"
           >
             edit</button
-          ><button v-else @click="(e) => save_edited_name(e, medicine._id)">
+          ><button v-else @click="(e) => save_edited_name(e, medicine._id, i)">
             submit
           </button></span
         >
@@ -80,12 +105,14 @@ export default {
         <input v-else v-model="storage_medicine[i].current_edit_price" />
         <span
           ><button
-            v-if="storage_medicine[i]"
+            v-if="storage_medicine[i].medicine_price"
             @click="edit_storage_price"
             :id="i.toString()"
           >
             edit</button
-          ><button v-else>submit</button></span
+          ><button v-else @click="(e) => save_edited_price(e, medicine._id, i)">
+            submit
+          </button></span
         >
       </div>
       <div class="storage-list-right">
@@ -101,7 +128,9 @@ export default {
           >
             edit
           </button>
-          <button v-else>submit</button></span
+          <button v-else @click="(e) => save_edited_stock(e, medicine._id, i)">
+            submit
+          </button></span
         >
       </div>
     </template>
