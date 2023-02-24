@@ -6,7 +6,7 @@ export default {
   setup() {
     const search_query = ref("");
 
-    const add_to_counter = (e) => {
+    const add_to_counter = (e: MouseEvent) => {
       for (let i = 0; i < medicines.value.length; i++) {
         let medicine = medicines.value[i];
         if (medicine.name == e.target.textContent) {

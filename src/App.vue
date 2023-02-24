@@ -1,4 +1,11 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { onMounted } from "vue";
+import { get_medicines, medicines } from "./MedicineList.js";
+
+onMounted(async () => {
+  medicines.value = await get_medicines();
+});
+</script>
 
 <template>
   <nav>

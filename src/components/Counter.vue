@@ -40,7 +40,7 @@ export default {
       for (let i = 0; i < medicines.value.length; i++) {
         let medicine = medicines.value[i];
         if (medicine.is_countered) {
-          medicine.quantity -= medicine.chosen_quantity;
+          medicine.stock -= medicine.chosen_quantity;
           medicine.chosen_quantity = 1;
           medicine_list.push({
             name: medicine.name,
@@ -77,7 +77,7 @@ export default {
         <input
           type="number"
           v-model="medicine.chosen_quantity"
-          :max="medicine.quantity"
+          :max="medicine.stock"
         />
         <span>x</span>
       </div>

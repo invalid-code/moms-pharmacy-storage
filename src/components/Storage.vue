@@ -6,7 +6,7 @@ import axios from "axios";
 export default {
   setup() {
     const storage_medicine = ref(
-      Array.from(medicines.value, (el, i) => {
+      Array.from(medicines.value, (el, _) => {
         return {
           medicine_name: true,
           medicine_price: true,
@@ -18,17 +18,17 @@ export default {
       })
     );
 
-    const edit_storage_name = (e) => {
+    const edit_storage_name = (e: MouseEvent) => {
       storage_medicine.value[parseInt(e.target.id)].medicine_name =
-        !storage_medicine.value[parseInt(e.target.id)].medicine_name;
+        !storage_medicine.value[parseInt(e.target.id)];
     };
 
-    const edit_storage_price = (e) => {
+    const edit_storage_price = async (e: MouseEvent) => {
       storage_medicine.value[parseInt(e.target.id)].medicine_price =
         !storage_medicine.value[parseInt(e.target.id)].medicine_price;
     };
 
-    const edit_storage_stock = (e) => {
+    const edit_storage_stock = async (e: MouseEvent) => {
       storage_medicine.value[parseInt(e.target.id)].medicine_stock =
         !storage_medicine.value[parseInt(e.target.id)].medicine_stock;
     };

@@ -1,4 +1,4 @@
-import { ref, watchEffect } from "vue";
+import { ref, Ref } from "vue";
 import axios, { AxiosResponse } from "axios";
 
 export interface SalesData {
@@ -12,6 +12,9 @@ interface MedicineData {
   name: string;
   stock: number;
   price: number;
+  is_countered: boolean;
+  is_searched: boolean;
+  chosen_quantity: number;
 }
 
 export const base_url = "http://localhost:8000/";
@@ -20,10 +23,16 @@ export const get_medicines = async () => {
   const { data } = await axios.get<any, AxiosResponse<MedicineData[]>>(
     base_url + "medicines"
   );
+  for (let i = 0; i < data.length; i++) {
+    let medicine = data[i];
+    medicine.chosen_quantity = 1;
+    medicine.is_countered = false;
+    medicine.is_searched = false;
+  }
   return data;
 };
 
-export const medicines = ref(async () => await get_medicines());
+export const medicines: Ref<MedicineData[]> | null = ref(null);
 
 export const todays_sales = ref<SalesData[]>([]);
 
