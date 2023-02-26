@@ -82,11 +82,15 @@ export default {
         <span>x</span>
       </div>
     </div>
-    <div>Total {{ sales }}</div>
-    <input type="number" v-model="received_amount" />
-    <button @click="add_to_today_sales">transact</button>
-    <div>Change {{ calculate_remaining_change }}</div>
   </div>
+  <div>Total {{ sales }}</div>
+  <input type="number" v-model="received_amount" />
+  <button @click="add_to_today_sales">transact</button>
+  <div>Change {{ calculate_remaining_change }}</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* .order {
+  background-color: black;
+} */
+</style>

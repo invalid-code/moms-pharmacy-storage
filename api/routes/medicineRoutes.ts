@@ -33,4 +33,3 @@ medicine_route.patch("/medicines/:id/edit", async (req, res) => {
     .json(updated_medicine);
 });
 
-// export default medicine_route;

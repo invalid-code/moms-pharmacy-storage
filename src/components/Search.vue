@@ -43,7 +43,7 @@ export default {
   <input type="text" v-model="search_query" />
   <div class="medicine-list">
     <div v-for="medicine in medicines">
-      <div v-if="medicine.is_searched" @click="add_to_counter">
+      <div v-if="medicine.is_searched" @click="add_to_counter" class="searched">
         {{ medicine.name }}
       </div>
     </div>
@@ -54,5 +54,9 @@ export default {
 .medicine-list {
   position: absolute;
   width: 13rem;
+  background-color: white;
+}
+.searched:hover {
+  background-color: rgb(197, 197, 197);
 }
 </style>

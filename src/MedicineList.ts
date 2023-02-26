@@ -1,5 +1,5 @@
 import { ref, Ref } from "vue";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 export interface SalesData {
   date: string;
@@ -7,7 +7,7 @@ export interface SalesData {
   data?: { name: string; sold_quantity: number; price: number }[];
 }
 
-interface MedicineData {
+export interface MedicineData {
   _id: string;
   name: string;
   stock: number;
@@ -20,9 +20,7 @@ interface MedicineData {
 export const base_url = "http://localhost:8000/";
 
 export const get_medicines = async () => {
-  const { data } = await axios.get<any, AxiosResponse<MedicineData[]>>(
-    base_url + "medicines"
-  );
+  const { data } = await axios.get<MedicineData[]>(base_url + "medicines");
   for (let i = 0; i < data.length; i++) {
     let medicine = data[i];
     medicine.chosen_quantity = 1;
@@ -32,9 +30,14 @@ export const get_medicines = async () => {
   return data;
 };
 
+export const get_sales = async () => {
+  const { data } = await axios.get<SalesData[]>(base_url + "medicines");
+  return data;
+};
+
 export const medicines: Ref<MedicineData[]> | null = ref(null);
 
-export const todays_sales = ref<SalesData[]>([]);
+export const todays_sales: Ref<SalesData[]> | null = ref(null);
 
 const date = new Date();
 
