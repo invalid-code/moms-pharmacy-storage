@@ -1,15 +1,11 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
-import {
-  get_medicines,
-  medicines,
-  todays_sales,
-  get_sales,
-} from "./MedicineList.js";
+import { use_medicines_store } from "./globals.js";
+
+const medicines_store = use_medicines_store();
 
 onMounted(async () => {
-  medicines.value = await get_medicines();
-  todays_sales.value = await get_sales();
+  await medicines_store.get_medicines(), medicines_store.get_sales();
 });
 </script>
 

@@ -1,11 +1,11 @@
 import express from "express";
 export const medicine_route = express();
 
-import { Medicines } from "../models/index.js";
+import Medicines from "../models/Medicines.js";
 
-medicine_route.get("/medicines", async (req, res) => {
-  const query = await Medicines.find({});
-  res.status(200).header("Access-Control-Allow-Origin", "*").json(query);
+medicine_route.get("/medicines", async (_, res) => {
+  const query = await Medicines.find();
+  res.send(query);
 });
 
 medicine_route.post("/medicines/new", async (req, res) => {
@@ -27,9 +27,5 @@ medicine_route.patch("/medicines/:id/edit", async (req, res) => {
       price: req.body.price,
     }
   );
-  res
-    .status(200)
-    .header("Access-Control-Allow-Origin", "*")
-    .json(updated_medicine);
+  res.send(updated_medicine);
 });
-

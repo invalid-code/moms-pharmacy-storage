@@ -1,7 +1,7 @@
-<script lang="ts">
+<script lang="ts" setup>
 import { watchEffect, ref } from "vue";
 import {
-  todays_sales,
+  use_medicines_store,
   months,
   active_year,
   active_month,
@@ -9,46 +9,37 @@ import {
   // active_hour,
   // active_seconds,
   base_url,
-  MedicineData,
-} from "../../MedicineList.js";
+} from "../../globals.js";
 import axios from "axios";
 
-export default {
-  setup() {
-    const total_today_sales = ref(0);
+const medicines_store = use_medicines_store();
 
-    watchEffect(() => {
-      for (let i = 0; i < todays_sales.value.length; i++) {
-        total_today_sales.value += todays_sales.value[i].sales;
-      }
-    });
+const total_today_sales = ref(0);
 
-    // watchEffect(() => {
-    //   if (active_hour.value === 23 && active_seconds.value === 59) {
-    //     axios.post<MedicineData>(base_url + "medicines", todays_sales.value);
-    //   }
-    // });
+watchEffect(() => {
+  for (let i = 0; i < medicines_store.todays_sales.length; i++) {
+    if (
+      medicines_store.todays_sales[i].date ===
+      `${active_month.value}/${active_day.value}/${active_year.value}`
+    )
+      total_today_sales.value += medicines_store.todays_sales[i].sales;
+  }
+});
 
-    const save_sales = async () => {
-      // for (let i = 0; i < todays_sales.value.length; i++) {
-      await axios.post<MedicineData>(
-        base_url + "sales" + "/new",
-        todays_sales.value
-      );
-      // }
-    };
+// watchEffect(() => {
+//   if (active_hour.value === 23 && active_seconds.value === 59) {
+//     axios.post<MedicineData>(base_url + "medicines", todays_sales.value);
+//   }
+// });
 
-    return {
-      todays_sales,
-      total_today_sales,
-      active_year,
-      active_month,
-      active_day,
-      months,
-      save_sales,
-    };
-  },
-  components: {},
+const save_sales = async () => {
+  for (let i = 0; i < medicines_store.todays_sales.length; i++) {
+    await axios.post(
+      base_url + "sales" + "/new",
+      medicines_store.todays_sales[i]
+    );
+  }
+  await medicines_store.get_sales();
 };
 </script>
 
@@ -57,7 +48,7 @@ export default {
     <div>
       {{ months[active_month].name }} {{ active_day }}, {{ active_year }}
     </div>
-    <div v-for="sales in todays_sales">
+    <div v-for="sales in medicines_store.todays_sales">
       <div v-if="sales.date === `${active_month}/${active_day}/${active_year}`">
         <div v-for="medicine_data in sales.data">
           {{ medicine_data.sold_quantity }} {{ medicine_data.name }}
@@ -67,7 +58,7 @@ export default {
     </div>
     <div>
       Total: {{ total_today_sales }}
-      <span><button @click="save_sales">save</button></span>
+      <span><button @click.prevent="save_sales">save</button></span>
     </div>
   </div>
 </template>

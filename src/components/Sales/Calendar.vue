@@ -8,15 +8,15 @@ import {
   years,
   months,
   week_days,
-} from "../../MedicineList.js";
+} from "../../globals.js";
 
 export default {
   setup() {
-    const change_active_day = (e) => {
+    const change_active_day = (e: MouseEvent) => {
       active_day.value = parseInt(e.target.id);
     };
 
-    const change_active_month = (e) => {
+    const change_active_month = (e: MouseEvent) => {
       if (e.target.id === "previous_month") {
         if (
           active_month.value === 0 &&
@@ -32,7 +32,7 @@ export default {
       }
     };
 
-    const change_active_year = (e) => {
+    const change_active_year = (e: MouseEvent) => {
       if (e.target.id === "previous_year") {
         let active_year_index = years.indexOf(active_year.value);
         if (active_year_index > 0) {

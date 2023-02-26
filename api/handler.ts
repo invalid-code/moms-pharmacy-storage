@@ -13,7 +13,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.json());
 
 mongoose.connect(
   `mongodb+srv://jess:${process.env.MONGOPWD}@cluster0.fhmruza.mongodb.net/Medicines?retryWrites=true&w=majority`

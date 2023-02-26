@@ -1,18 +1,18 @@
 import express from "express";
 export const sales_route = express();
-import { Sales } from "../models/index.js";
+import Sales from "../models/Sales.js";
 
-sales_route.get("/sales", async (req, res) => {
+sales_route.get("/sales", async (_, res) => {
   const query = await Sales.find();
-  res.status(200).header("Access-Control-Allow-Origin", "*").json(query);
+  res.send(query);
 });
 
 sales_route.post("/sales/new", async (req, res) => {
   const sale = new Sales({
-    sales: req.body,
+    date: req.body.date,
+    sales: req.body.sales,
+    data: req.body.data,
   });
   await sale.save();
-  // const sale = new Sales(req.body);
-  // await sale.save();
   res.send(sale);
 });

@@ -1,48 +1,44 @@
-<script lang="ts">
-import { medicines } from "../MedicineList.js";
-import { ref, watch } from "vue";
+<script lang="ts" setup>
+import { use_medicines_store } from "../globals.js";
+import { ref, watchEffect } from "vue";
 
-export default {
-  setup() {
-    const search_query = ref("");
+const medicines_store = use_medicines_store();
 
-    const add_to_counter = (e: MouseEvent) => {
-      for (let i = 0; i < medicines.value.length; i++) {
-        let medicine = medicines.value[i];
-        if (medicine.name == e.target.textContent) {
-          medicine.is_countered = true;
-          medicine.chosen_quantity = 1;
-          medicine.is_searched = false;
-          search_query.value = "";
-        }
-      }
-    };
+const search_query = ref("");
 
-    watch(search_query, () => {
-      for (let i = 0; i < medicines.value.length; i++) {
-        let medicine = medicines.value[i];
-        if (
-          medicine.name.includes(search_query.value) &&
-          search_query.value.length > 0
-        ) {
-          if (medicine.stock > 0) {
-            medicine.is_searched = true;
-          }
-        } else {
-          medicine.is_searched = false;
-        }
-      }
-    });
-
-    return { medicines, search_query, add_to_counter };
-  },
+const add_to_counter = (e: MouseEvent) => {
+  for (let i = 0; i < medicines_store.medicines.length; i++) {
+    let medicine = medicines_store.medicines[i];
+    if (medicine.name == e.target.textContent) {
+      medicine.is_countered = true;
+      medicine.chosen_quantity = 1;
+      medicine.is_searched = false;
+      search_query.value = "";
+    }
+  }
 };
+
+watchEffect(() => {
+  for (let i = 0; i < medicines_store.medicines.length; i++) {
+    let medicine = medicines_store.medicines[i];
+    if (
+      medicine.name.includes(search_query.value) &&
+      search_query.value.length > 0
+    ) {
+      if (medicine.stock > 0) {
+        medicine.is_searched = true;
+      }
+    } else {
+      medicine.is_searched = false;
+    }
+  }
+});
 </script>
 
 <template>
   <input type="text" v-model="search_query" />
   <div class="medicine-list">
-    <div v-for="medicine in medicines">
+    <div v-for="medicine in medicines_store.medicines">
       <div v-if="medicine.is_searched" @click="add_to_counter" class="searched">
         {{ medicine.name }}
       </div>
@@ -56,6 +52,7 @@ export default {
   width: 13rem;
   background-color: white;
 }
+
 .searched:hover {
   background-color: rgb(197, 197, 197);
 }

@@ -1,77 +1,68 @@
-<script lang="ts">
+<script lang="ts" setup>
 import Search from "./Search.vue";
 import {
-  medicines,
-  todays_sales,
+  use_medicines_store,
   current_day,
   current_month,
   current_year,
-  SalesData,
-} from "../MedicineList.js";
-import { ref, computed, watchEffect } from "vue";
+  base_url,
+} from "../globals.js";
+import { ref, computed } from "vue";
+import axios from "axios";
 
-export default {
-  setup() {
-    const sales = ref(0);
-    const received_amount = ref(0);
+const medicines_store = use_medicines_store();
 
-    const calculate_remaining_change = computed(
-      () => received_amount.value - sales.value
-    );
+const received_amount = ref(0);
 
-    watchEffect(() => {
-      let total_sales = 0;
-      for (let i = 0; i < medicines.value.length; i++) {
-        let medicine = medicines.value[i];
-        if (medicine.is_countered) {
-          total_sales += medicine.price * medicine.chosen_quantity;
-        }
-      }
-      sales.value = total_sales;
-      return total_sales;
-    });
+const calculate_remaining_change = computed(
+  () => received_amount.value - medicines_store.sales
+);
 
-    const add_to_today_sales = () => {
-      let data: SalesData = {
-        date: `${current_month}/${current_day}/${current_year}`,
-        sales: sales.value,
-      };
-      let medicine_list = [];
-      for (let i = 0; i < medicines.value.length; i++) {
-        let medicine = medicines.value[i];
-        if (medicine.is_countered) {
-          medicine.stock -= medicine.chosen_quantity;
-          medicine.chosen_quantity = 1;
-          medicine_list.push({
-            name: medicine.name,
-            sold_quantity: medicine.chosen_quantity,
-            price: medicine.price,
-          });
-          medicine.is_countered = false;
-          medicine.chosen_quantity = 1;
-          received_amount.value = 0;
-        }
-      }
-      data.data = medicine_list;
-      todays_sales.value.push(data);
-    };
+const add_to_today_sales = async () => {
+  let data: SalesData = {
+    date: `${current_month}/${current_day}/${current_year}`,
+    sales: medicines_store.sales,
+  };
 
-    return {
-      medicines,
-      received_amount,
-      calculate_remaining_change,
-      sales,
-      add_to_today_sales,
-    };
-  },
-  components: { Search },
+  let medicine_list = [];
+
+  for (let i = 0; i < medicines_store.medicines.length; i++) {
+    let medicine = medicines_store.medicines[i];
+
+    if (medicine.is_countered) {
+      medicine.stock -= medicine.chosen_quantity;
+
+      medicine.chosen_quantity = 1;
+
+      medicine_list.push({
+        name: medicine.name,
+        sold_quantity: medicine.chosen_quantity,
+        price: medicine.price,
+      });
+
+      medicine.is_countered = false;
+
+      medicine.chosen_quantity = 1;
+
+      received_amount.value = 0;
+
+      await axios.patch(base_url + "medicines" + "/" + medicine._id + "/edit", {
+        stock: medicine.stock,
+      });
+    }
+  }
+  await medicines_store.get_medicines();
+
+  data.data = medicine_list;
+
+  medicines_store.todays_sales.push(data);
 };
 </script>
 
 <template>
   <Search />
   <div class="order-list">
-    <div v-for="medicine in medicines">
+    <div v-for="medicine in medicines_store.medicines">
       <div v-if="medicine.is_countered">
         {{ medicine.name }}
         <input
@@ -83,14 +74,10 @@ export default {
       </div>
     </div>
   </div>
-  <div>Total {{ sales }}</div>
+  <div>Total {{ medicines_store.sales }}</div>
   <input type="number" v-model="received_amount" />
   <button @click="add_to_today_sales">transact</button>
   <div>Change {{ calculate_remaining_change }}</div>
 </template>
 
-<style scoped>
-/* .order {
-  background-color: black;
-} */
-</style>
+<style scoped></style>
