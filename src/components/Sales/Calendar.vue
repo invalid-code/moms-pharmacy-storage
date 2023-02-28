@@ -8,7 +8,7 @@ import {
   years,
   months,
   week_days,
-} from "../../globals.js";
+} from "../../state.js";
 
 export default {
   setup() {

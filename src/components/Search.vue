@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { use_medicines_store } from "../globals.js";
+import { use_medicines_store } from "../state.js";
 import { ref, watchEffect } from "vue";
 
 const medicines_store = use_medicines_store();

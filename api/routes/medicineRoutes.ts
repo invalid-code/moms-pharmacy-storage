@@ -19,6 +19,7 @@ medicine_route.post("/medicines/new", async (req, res) => {
 });
 
 medicine_route.patch("/medicines/:id/edit", async (req, res) => {
+  console.log(req.body);
   const updated_medicine = await Medicines.updateOne(
     { _id: req.params.id },
     {

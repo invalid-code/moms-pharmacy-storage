@@ -6,9 +6,9 @@ import {
   current_month,
   current_year,
   base_url,
-} from "../globals.js";
-import { ref, computed } from "vue";
+} from "../state.js";
 import axios from "axios";
+import { ref, computed } from "vue";
 
 const medicines_store = use_medicines_store();
 

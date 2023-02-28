@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import axios from "axios";
 import { ref } from "vue";
-import { base_url, use_medicines_store } from "../globals.js";
+import { base_url, use_medicines_store } from "../state.js";
+import axios from "axios";
 
 const medicines_store = use_medicines_store();
 
@@ -34,8 +34,7 @@ const edit_storage_stock = async (e: MouseEvent) => {
 };
 
 const save_edited_name = async (e: MouseEvent, id: string, i: number) => {
-  let url = base_url + "medicines/" + id + "/edit";
-  await axios.patch(url, {
+  await axios.patch(base_url + "medicines/" + id + "/edit", {
     name: storage_medicine.value[i].current_edit_name,
   });
   storage_medicine.value[i].medicine_name =
@@ -56,6 +55,7 @@ const save_edited_stock = async (e: MouseEvent, id: string, i: number) => {
   await axios.patch(base_url + "medicines/" + id + "/edit", {
     stock: storage_medicine.value[i].current_edit_stock,
   });
+
   storage_medicine.value[i].medicine_stock =
     !storage_medicine.value[i].medicine_stock;
   medicines_store.get_medicines();

@@ -1,36 +1,15 @@
 <script lang="ts" setup>
-import { watchEffect, ref } from "vue";
+import axios from "axios";
 import {
   use_medicines_store,
   months,
   active_year,
   active_month,
   active_day,
-  // active_hour,
-  // active_seconds,
   base_url,
-} from "../../globals.js";
-import axios from "axios";
+} from "../../state.js";
 
 const medicines_store = use_medicines_store();
-
-const total_today_sales = ref(0);
-
-watchEffect(() => {
-  for (let i = 0; i < medicines_store.todays_sales.length; i++) {
-    if (
-      medicines_store.todays_sales[i].date ===
-      `${active_month.value}/${active_day.value}/${active_year.value}`
-    )
-      total_today_sales.value += medicines_store.todays_sales[i].sales;
-  }
-});
-
-// watchEffect(() => {
-//   if (active_hour.value === 23 && active_seconds.value === 59) {
-//     axios.post<MedicineData>(base_url + "medicines", todays_sales.value);
-//   }
-// });
 
 const save_sales = async () => {
   for (let i = 0; i < medicines_store.todays_sales.length; i++) {
@@ -57,8 +36,8 @@ const save_sales = async () => {
       </div>
     </div>
     <div>
-      Total: {{ total_today_sales }}
-      <span><button @click.prevent="save_sales">save</button></span>
+      Total: {{ medicines_store.total_today_sales }}
+      <span><button @click="save_sales">save</button></span>
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 import { ref } from "vue";
-import axios from "axios";
 import { defineStore } from "pinia";
 import { computed } from "vue";
+import axios from "axios";
 
 export const base_url = "http://localhost:8000/";
 
@@ -11,18 +11,12 @@ export const use_medicines_store = defineStore("medicines", () => {
   const todays_sales = ref(null as SalesData[] | null);
 
   const get_sales = async () => {
-    const { data } = await axios.get<SalesData[]>(base_url + "sales");
+    const { data } = await axios.get<MedicineData[]>(base_url + "sales");
     todays_sales.value = data;
   };
 
   const get_medicines = async () => {
-    const { data } = await axios.get<MedicineData[]>(base_url + "medicines");
-    for (let i = 0; i < data.length; i++) {
-      let medicine = data[i];
-      medicine.chosen_quantity = 1;
-      medicine.is_countered = false;
-      medicine.is_searched = false;
-    }
+    const { data } = await axios.get<SalesData[]>(base_url + "medicines");
     medicines.value = data;
   };
 
@@ -37,7 +31,26 @@ export const use_medicines_store = defineStore("medicines", () => {
     return total_sales;
   });
 
-  return { medicines, get_medicines, sales, todays_sales, get_sales };
+  const total_today_sales = computed(() => {
+    let total_sales = 0;
+    for (let i = 0; i < todays_sales.value.length; i++) {
+      if (
+        todays_sales.value[i].date ===
+        `${active_month.value}/${active_day.value}/${active_year.value}`
+      )
+        total_sales += todays_sales.value[i].sales;
+    }
+    return total_sales;
+  });
+
+  return {
+    medicines,
+    get_medicines,
+    sales,
+    todays_sales,
+    get_sales,
+    total_today_sales,
+  };
 });
 
 const date = new Date();

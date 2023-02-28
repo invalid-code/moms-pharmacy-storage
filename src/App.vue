@@ -1,11 +1,15 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
-import { use_medicines_store } from "./globals.js";
+import { use_medicines_store } from "./state.js";
+// import { useRoute } from "vue-router";
 
 const medicines_store = use_medicines_store();
 
 onMounted(async () => {
-  await medicines_store.get_medicines(), medicines_store.get_sales();
+  await Promise.all([
+    medicines_store.get_medicines(),
+    medicines_store.get_sales(),
+  ]);
 });
 </script>
 
