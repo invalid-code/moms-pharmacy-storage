@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import { use_medicines_store } from "./state.js";
-// import { useRoute } from "vue-router";
 
 const medicines_store = use_medicines_store();
 

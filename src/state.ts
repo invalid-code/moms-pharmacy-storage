@@ -6,17 +6,17 @@ import axios from "axios";
 export const base_url = "http://localhost:8000/";
 
 export const use_medicines_store = defineStore("medicines", () => {
-  const medicines = ref(null as MedicineData[] | null);
+  const medicines = ref<MedicineData[] | null>(null);
 
-  const todays_sales = ref(null as SalesData[] | null);
+  const todays_sales = ref<SalesData[] | null>(null);
 
   const get_sales = async () => {
-    const { data } = await axios.get<MedicineData[]>(base_url + "sales");
+    const { data } = await axios.get<SalesData[]>(base_url + "sales");
     todays_sales.value = data;
   };
 
   const get_medicines = async () => {
-    const { data } = await axios.get<SalesData[]>(base_url + "medicines");
+    const { data } = await axios.get<MedicineData[]>(base_url + "medicines");
     medicines.value = data;
   };
 

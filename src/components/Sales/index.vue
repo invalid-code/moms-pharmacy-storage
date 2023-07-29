@@ -1,12 +1,11 @@
-<script lang="ts">
+<script lang="ts" setup>
 import Calendar from "./Calendar.vue";
-import Sales from "./Sales.vue";
-
-export default {
-  components: { Calendar, Sales },
-};
+// import Sales from "./Sales.vue";
 </script>
 
-<template><Calendar /><Sales /></template>
+<template>
+  <Calendar />
+  <Sales />
+</template>
 
 <style scoped></style>
