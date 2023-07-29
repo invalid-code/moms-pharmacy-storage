@@ -29,3 +29,8 @@ medicine_route.patch("/medicines/:id/edit", async (req, res) => {
   );
   res.send(updated_medicine);
 });
+
+medicine_route.delete("/medicines/:id/delete", async (req, res) => {
+  await Medicines.deleteOne({ _id: req.params.id })
+  res.send()
+});

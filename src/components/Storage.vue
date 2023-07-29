@@ -35,7 +35,7 @@ const edit_storage_stock = async (e: MouseEvent) => {
     !storage_medicine.value[parseInt(e.target.id)].medicine_stock;
 };
 
-const save_edited_name = async (e: MouseEvent, id: string, i: number) => {
+const save_edited_name = async (_: MouseEvent, id: string, i: number) => {
   await axios.patch(base_url + "medicines/" + id + "/edit", {
     name: storage_medicine.value[i].current_edit_name,
   });
@@ -44,7 +44,7 @@ const save_edited_name = async (e: MouseEvent, id: string, i: number) => {
   medicines_store.get_medicines();
 };
 
-const save_edited_price = async (e: MouseEvent, id: string, i: number) => {
+const save_edited_price = async (_: MouseEvent, id: string, i: number) => {
   await axios.patch(base_url + "medicines/" + id + "/edit", {
     price: storage_medicine.value[i].current_edit_price,
   });
@@ -53,7 +53,7 @@ const save_edited_price = async (e: MouseEvent, id: string, i: number) => {
   medicines_store.get_medicines();
 };
 
-const save_edited_stock = async (e: MouseEvent, id: string, i: number) => {
+const save_edited_stock = async (_: MouseEvent, id: string, i: number) => {
   await axios.patch(base_url + "medicines/" + id + "/edit", {
     stock: storage_medicine.value[i].current_edit_stock,
   });
@@ -99,6 +99,12 @@ let save_new_medicine = async () => {
   });
   medicines_store.get_medicines();
 };
+
+let delete_medicine = async (_: MouseEvent, id: string, i: number) => {
+  await axios.delete(base_url + "medicines/" + id + "/" + "delete")
+  storage_medicine.value.splice(i);
+  medicines_store.get_medicines();
+};
 </script>
 
 <template>
@@ -111,6 +117,7 @@ let save_new_medicine = async () => {
       <template v-if="search_query.length > 0">
         <template v-if="medicine.is_searched">
           <div class="storage-list-right">
+            <span><button @click="(e) => delete_medicine(e, medicine._id, i)">X</button></span>
             <span v-if="storage_medicine[i].medicine_name">
               {{ medicine.name }}</span>
             <input v-else v-model="storage_medicine[i].current_edit_name" />
@@ -150,6 +157,7 @@ let save_new_medicine = async () => {
       </template>
       <template v-else>
         <div class="storage-list-right">
+          <span><button @click="(e) => delete_medicine(e, medicine._id, i)">X</button></span>
           <span v-if="storage_medicine[i].medicine_name">{{
             medicine.name
           }}</span>
