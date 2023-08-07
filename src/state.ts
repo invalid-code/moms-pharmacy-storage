@@ -1,7 +1,6 @@
-import { ref } from "vue";
-import { defineStore } from "pinia";
-import { computed } from "vue";
 import axios from "axios";
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
 
 export const base_url = "http://localhost:8000/";
 
@@ -53,6 +52,8 @@ export const use_medicines_store = defineStore("medicines", () => {
   };
 });
 
+export const search_query = ref("");
+
 const date = new Date();
 
 export const current_year = date.getFullYear();
@@ -67,17 +68,17 @@ export const active_month = ref(current_month);
 
 export const active_year = ref(current_year);
 
-export const years = [2023];
+// export const years = [2023];
 
-export const week_days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+// export const week_days = [
+//   "Monday",
+//   "Tuesday",
+//   "Wednesday",
+//   "Thursday",
+//   "Friday",
+//   "Saturday",
+//   "Sunday",
+// ];
 
 export const months = [
   { name: "January", days: 31 },
