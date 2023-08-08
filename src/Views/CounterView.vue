@@ -4,9 +4,9 @@ import {
   use_medicines_store,
   base_url,
   search_query,
-current_day,
-current_month,
-current_year,
+  current_day,
+  current_month,
+  current_year,
 } from "../state.js";
 import axios from "axios";
 import { ref, computed } from "vue";

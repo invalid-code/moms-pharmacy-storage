@@ -68,29 +68,17 @@ export const active_month = ref(current_month);
 
 export const active_year = ref(current_year);
 
-// export const years = [2023];
-
-// export const week_days = [
-//   "Monday",
-//   "Tuesday",
-//   "Wednesday",
-//   "Thursday",
-//   "Friday",
-//   "Saturday",
-//   "Sunday",
-// ];
-
 export const months = [
-  { name: "January", days: 31 },
-  { name: "February", days: 28 },
-  { name: "March", days: 31 },
-  { name: "April", days: 30 },
-  { name: "May", days: 31 },
-  { name: "June", days: 30 },
-  { name: "July", days: 31 },
-  { name: "August", days: 31 },
-  { name: "September", days: 30 },
-  { name: "October", days: 31 },
-  { name: "November", days: 30 },
-  { name: "December", days: 31 },
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
