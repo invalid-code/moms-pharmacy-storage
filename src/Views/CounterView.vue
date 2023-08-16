@@ -105,4 +105,13 @@ const add_to_today_sales = async () => {
   <div>Change {{ calculate_remaining_change }}</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.medicine-list {
+  position: absolute;
+  width: 13rem;
+  background-color: white;
+}
+.searched:hover {
+  background-color: rgb(197, 197, 197);
+}
+</style>

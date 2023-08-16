@@ -25,14 +25,4 @@ watch(search_query, (search_query) => {
   <slot></slot>
 </template>
 
-<style scoped>
-.medicine-list {
-  position: absolute;
-  width: 13rem;
-  background-color: white;
-}
-
-.searched:hover {
-  background-color: rgb(197, 197, 197);
-}
-</style>
+<style scoped></style>
