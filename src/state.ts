@@ -1,6 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 export const base_url = "http://localhost:8000/";
 
@@ -44,15 +44,17 @@ export const use_medicines_store = defineStore("medicines", () => {
 
   return {
     medicines,
-    get_medicines,
     sales,
     todays_sales,
-    get_sales,
     total_today_sales,
+    get_medicines,
+    get_sales,
   };
 });
 
 export const search_query = ref("");
+
+watch(search_query, (search_query) => {});
 
 const date = new Date();
 

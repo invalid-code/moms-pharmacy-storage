@@ -8,7 +8,7 @@ watch(search_query, (search_query) => {
   for (let i = 0; i < medicines_store.medicines.length; i++) {
     let medicine = medicines_store.medicines[i];
     if (
-      medicine.name.includes(search_query.value) &&
+      medicine.name.includes(search_query) &&
       search_query.length > 0 &&
       medicine.stock > 0
     ) {
